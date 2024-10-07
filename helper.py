@@ -22,36 +22,30 @@ def create_board():
     [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1], # More paths
     [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1], # Internal walls
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], # Open path
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1], # Extra boundary row
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], # Extra boundary row
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], # Extra boundary row
     ]
 
     return maze
 
 def create_coins(board):
-
-    coins = [(x, y) for x in range(len(board)) for y in range(len(board[x])) if board[x][y] == 0]
- 
-    for corners in special_coins_pos:
-        if corners in coins:
-            coins.remove(corners)
+    coins = []
     
-    for centers in center_pos:
-        if centers in coins:
-            coins.remove(centers)
-    # TODO: Ajouter la position de toutes les cases '0' à la variable coins. Pour ajouter un élément, vous pouvez utiliser l'expression suivante :
-    # coins.append((x, y))
-    # en remplacant x et y par la position. Notez que le premier coin est à la position (1, 1)
+    for rows in range(len(board)):
+        for columns in range(len(board)):
+            if board[rows][columns]==0:
+                coins.append((columns,rows))
 
-    # TODO: Retirer les coins de chaque "coin" du carré. Vous devez utiliser la variable 'special_coins_pos' et la fonction 'remove'.
-
-    # TODO: Retirer les coins aux positions centrales, en utilisant la variable 'center_pos'.
-
+    for positions in special_coins_pos:
+        if positions in coins:
+            coins.remove(positions)
+    
+    
     return coins
         
 
 
-def create_special_coins(board):
+def create_special_coins(special_coins):
 
     special_coins = list(special_coins_pos)
     # TODO: Ajouter des coins aux positions spéciales, en utilisant la variable 'special_coins_pos'.

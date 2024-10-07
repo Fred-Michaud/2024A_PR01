@@ -54,9 +54,8 @@ class PacMan:
                 self.x = new_x
                 self.y = new_y
 
-                screen_x = grid_to_screen(self.x)
-                screen_y = grid_to_screen(self.y)
-
+                screen_x, screen_y = grid_to_screen((self.x, self.y), (self.size_grid, self.size_grid))
+                
                 self.rect.topleft = (screen_x , screen_y)
 
         

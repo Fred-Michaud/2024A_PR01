@@ -29,7 +29,16 @@ class Ghost:
     def move(self):
         # Si le fantôme n'est pas "mort", commencez le calcul de sa prochaine position
         if not self.dead:
-            pass
+
+            next_x = self.pos[0] + self.direction[0] * self.speed
+            next_y = self.pos[1] + self.direction[1] * self.speed
+            next_rect = pygame.Rect(next_x, next_y, GHOST_SIZE[0], GHOST_SIZE[1])
+
+            if not self.check_collision (next_rect):
+                self.pos = (next_x , next_y)
+                self.rect = next_rect
+            else: self.change_direction()
+
             # TODO: Calculer la prochaine position en fonction de la direction et de la vitesse
             # Utilisez `self.direction` pour déterminer la direction et `self.speed` pour le déplacement.
             # La formule pour calculer la prochaine position est la suivante:
@@ -74,18 +83,24 @@ class Ghost:
 
     def change_direction(self):
         # TODO: Créer une liste de toutes les directions possibles pour le fantôme (gauche, droite, haut, bas)
-
+        possible_directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
         # TODO: Mélanger aléatoirement les directions pour simuler un choix aléatoire avec `random.shuffle()`
-
+        random.shuffle (possible_directions)
         # TODO: Parcourir chaque direction et vérifier si elle est valide (pas de collision avec un mur)
             # TODO: Calculer la prochaine position du fantôme en fonction de la direction
-
+        for direction in possible_directions:
+            next_x = self.pos[0] + direction[0] * self.speed
+            next_y = self.pos[1] + direction[1] * self.speed
             
             #ßCréer un rectangle représentant cette nouvelle position
+            next_rect = pygame.Rect(next_x, next_y, GHOST_SIZE[0], GHOST_SIZE[1])
             #next_rect = pygame.Rect(next_x, next_y, GHOST_SIZE[0], GHOST_SIZE[1])
             
             # TODO: Vérifier si cette direction entraîne une collision avec un mur en utilisant `self.check_collision()`
-                # TODO: Si aucune collision n'est détectée, définir cette direction comme la nouvelle direction du fantôme avec `self.set_direction()` et sortir de la boucle
+            if not self.check_collision(next_rect):
+                if direction != self.direction:
+                    self.direction = direction
+               # TODO: Si aucune collision n'est détectée, définir cette direction comme la nouvelle direction du fantôme avec `self.set_direction()` et sortir de la boucle
                 return  # Sortir de la méthode une fois la direction changée
 
     def stop(self):
